@@ -11,10 +11,6 @@ public class Container {
         return peopleList;
     }
 
-    public void setPeopleList(List<Person> peopleList) {
-        this.peopleList = peopleList;
-    }
-
     public Container(List<Person> peopleList) {
         this.peopleList = peopleList;
     }

@@ -4,11 +4,9 @@ import com.mocmilo.model.Container;
 import com.mocmilo.model.Person;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
-import static com.mocmilo.model.Person.Gender.M;
-import static com.mocmilo.model.Person.Gender.W;
+import static com.mocmilo.model.Gender.M;
+import static com.mocmilo.model.Gender.W;
 
 public class ContainerBuilder {
 

@@ -1,7 +1,9 @@
 package com.mocmilo;
 
+import com.mocmilo.builders.ContainerBuilder;
 import com.mocmilo.kafka.KafkaProperties;
 
+import com.mocmilo.model.Person;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -10,13 +12,11 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class App {
     private static final String TOPIC = "ExampleTopic";
     private static final String KEY = "key";
-    private static final String MESSAGE = "Message form Java App, number: ";
-    private static final String START_MESSAGE = "START of message Producer";
-    private static final String END_MESSAGE = "END of sending messages.";
 
     public static void main(String[] args) {
 
@@ -30,17 +30,14 @@ public class App {
         }
     }
 
-
     private static void receiveMessages() {
-        System.out.println("Waiting for messages.");
-
-        try (Consumer<String, String> consumer = new KafkaConsumer<>(KafkaProperties.get())) {
+        try (Consumer<String, Person> consumer = new KafkaConsumer<>(KafkaProperties.get())) {
             consumer.subscribe(Arrays.asList("ExampleTopic"));
             final int giveUp = 100;
             int noRecordsCount = 0;
 
             while (true) {
-                final ConsumerRecords<String, String> consumerRecords =
+                final ConsumerRecords<String, Person> consumerRecords =
                         consumer.poll(1000);
 
                 if (consumerRecords.count() == 0) {
@@ -49,12 +46,14 @@ public class App {
                     else continue;
                 }
                 consumerRecords.forEach(record -> {
-                    System.out.printf("Consumer Record:(%s, %s, %d, %d)\n",
-                            record.key(), record.value(),
+                    System.out.printf("Consumer Record:(%s, %s, %s, %s, %d, %d)\n",
+                            record.key(),
+                            record.value().getName(),
+                            record.value().getAge(),
+                            record.value().getGender().toString(),
                             record.partition(), record.offset());
                 });
                 consumer.commitAsync();
-                consumer.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,21 +61,20 @@ public class App {
     }
 
     private static void produceMessage() {
+        try (Producer<String, Person> producer = new KafkaProducer<>(KafkaProperties.get())) {
 
-        System.out.println(START_MESSAGE);
+            List<Person> people = new ContainerBuilder()
+                    .build()
+                    .getPeopleList();
 
-        try (Producer<String, String> producer = new KafkaProducer<>(KafkaProperties.get())) {
-            for (int i = 0; i < 15; i++) {
-                Thread.sleep(1000);
+            int i = 0;
+            for (Person person : people) {
+                String key = KEY + i++;
 
-                String key = KEY + i;
-                String value = MESSAGE + i;
-
-                ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC, key, value);
+                ProducerRecord<String, Person> record = new ProducerRecord<>(TOPIC, key, person);
                 producer.send(record);
+                System.out.println("record send: " + person.getName());
             }
-            System.out.println(END_MESSAGE);
-            producer.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

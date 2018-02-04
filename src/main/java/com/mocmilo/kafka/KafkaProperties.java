@@ -18,9 +18,10 @@ public final class KafkaProperties {
         Properties props = new Properties();
         props.put(BOOTSTRAP_SERVERS, SERVER_PORT);
         props.put(KEY_SERIALIZER, STRING_SERIALIZER);
-        props.put(VALUE_SERIALIZER, STRING_SERIALIZER);
+        props.put(VALUE_SERIALIZER, "com.mocmilo.serializers.PersonSerializer");
+        props.put(VALUE_DESERIALIZER, "com.mocmilo.serializers.PersonDeserializer");
         props.put(KEY_DESERIALIZER, STRING_DESERIALIZER);
-        props.put(VALUE_DESERIALIZER, STRING_DESERIALIZER);
+
         props.put(ConsumerConfig.GROUP_ID_CONFIG,"KafkaExampleConsumerGroup");
         return props;
     }
