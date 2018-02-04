@@ -12,9 +12,7 @@ import static com.mocmilo.model.Person.Gender.W;
 
 public class ContainerBuilder {
 
-
     public Container build() {
-
         Person person1 = new Person("Tom", 27, M);
         Person person2 = new Person("Alice", 24, W);
         Person person3 = new Person("Dominica", 28, W);

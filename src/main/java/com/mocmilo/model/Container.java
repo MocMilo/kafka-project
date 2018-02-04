@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 public class Container {
-
     private String example;
     private List<Person> peopleList;
     private Set<Person> personSet;

@@ -1,4 +1,6 @@
-## kafka-project
+## Kafka-project
+
+This project is a simple java application example using Apache Kafka  
  
 ### Running  kafka in docker-compose
 
@@ -13,6 +15,25 @@
 $ docker-compose -f docker/docker-compose-single-broker.yml up
 ````
 
-
 kafka docker files origin:
 * https://github.com/wurstmeister/kafka-docker<br>
+
+### Kafka-project console app build and run:
+
+command in application root folder:
+
+````bash
+$ mvn clean install
+````
+
+in folder /target
+
+Kafka consumer mode:
+````bash
+$ java -jar kafka-project-1.0-SNAPSHOT-jar-with-dependencies.jar -c
+````
+
+Kafka producer mode:
+````bash
+$ java -jar kafka-project-1.0-SNAPSHOT-jar-with-dependencies.jar -p
+````
