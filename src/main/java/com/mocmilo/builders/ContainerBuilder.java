@@ -17,13 +17,6 @@ public class ContainerBuilder {
         Person person2 = new Person("Alice", 24, W);
         Person person3 = new Person("Dominica", 28, W);
 
-        Set<Person> personSet = new HashSet<>();
-        personSet.add(person1);
-        personSet.add(person2);
-        personSet.add(person3);
-
-        return new Container("just example string",
-                Arrays.asList(person1, person2, person3),
-                personSet);
+        return new Container(Arrays.asList(person1, person2, person3));
     }
 }

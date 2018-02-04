@@ -22,11 +22,8 @@ public class App {
 
         if (args.length > 0 && args[0].equals("-p")) {
             produceMessage();
-
         } else if (args.length > 0 && args[0].equals("-c")) {
-            System.out.println("consumer not implemented");
-            receaveMessages();
-
+            receiveMessages();
         } else {
             System.out.println("\n*** Welcome to Kafka-project ***" +
                     "\nNo parameters: \n-p producer mode\n-c client mode");
@@ -34,7 +31,7 @@ public class App {
     }
 
 
-    private static void receaveMessages() {
+    private static void receiveMessages() {
         System.out.println("Waiting for messages.");
 
         try (Consumer<String, String> consumer = new KafkaConsumer<>(KafkaProperties.get())) {
